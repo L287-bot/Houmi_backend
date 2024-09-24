@@ -2,7 +2,7 @@ package com.example.houmi_backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.houmi_backend.model.domain.User;
-import generator.domain.user;
+
 
 /**
 * @author ASUS

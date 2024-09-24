@@ -1,5 +1,6 @@
 package com.example.houmi_backend.model.domain;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -33,7 +34,7 @@ public class User implements Serializable {
     private Date creatTime;
 
     private Date updateTIme;
-
+    @TableLogic
     private Integer isDelete;
 
     private String tags;

@@ -43,4 +43,33 @@ public interface UserService extends IService<User> {
      */
     int userLogout(HttpServletRequest request);
 
+    /**
+     * 是否是管理员
+     * @param request
+     * @return
+     */
+    boolean isAdmin(HttpServletRequest request);
+
+    /**
+     * 当前登录用建群
+     * @param loginUser
+     * @return
+     */
+    boolean isAdmin(User loginUser);
+
+    /**
+     * 修改
+     * @param user
+     * @param loginUser
+     * @return
+     */
+    int updateUser (User user,User loginUser);
+
+    /**
+     * 更新用户时候得到当前登录用户进行鉴权
+     * @param request
+     * @return
+     */
+     User getLoginUser(HttpServletRequest request);
+
 }
