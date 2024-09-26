@@ -74,6 +74,10 @@ public class UserController {
         }
 
         User user=userService.userLogin(userAccount,userPassword,request);
+        if (user==null)
+        {
+            return ResultUtils.error(ErrorCode.NULL_ERROR,"用户名或密码错误，登录失败");
+        }
         return ResultUtils.success(user);
     }
 
@@ -125,6 +129,7 @@ public class UserController {
     @GetMapping("/search")
     public BaseResponse<List<User>> searchUser(String username ,HttpServletRequest request)
     {
+
         if(!userService.isAdmin(request))
         {
             throw new BusinessException(ErrorCode.NO_AUTH);
@@ -136,9 +141,14 @@ public class UserController {
 
         }
         List<User> userList=userService.list(queryWrapper);
-        //集合中的每一个用户脱敏
-        List<User> list=userList.stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
-        return  ResultUtils.success(list);
+        System.out.println(userList);
+        if (userList.size()>0)
+        {
+            //集合中的每一个用户脱敏
+            List<User> list=userList.stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
+            return  ResultUtils.success(list);
+        }
+        return ResultUtils.error(ErrorCode.NULL_ERROR,"用户不存在，请检查输入名");
 
     }
 

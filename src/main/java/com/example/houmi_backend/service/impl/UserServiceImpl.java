@@ -130,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String encryptPassword=DigestUtils.md5DigestAsHex((SALT+userPassword).getBytes());
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("userAccount",userAccount);
-        queryWrapper.eq("userPassword",userPassword);
+        queryWrapper.eq("userPassword",encryptPassword);
         User user=userMapper.selectOne(queryWrapper);
         if(user==null)
         {
@@ -154,7 +154,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public boolean isAdmin(HttpServletRequest request) {
         Object userObj=request.getSession().getAttribute(USER_LOGIN_STATE);
         User user=(User) userObj;
-        return user != null || user.getUserRole() != ADMIN_ROLE;
+        return user != null && user.getUserRole() == ADMIN_ROLE;
     }
 
     @Override
@@ -164,7 +164,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public int updateUser(User user, User loginUser) {
+    public int  updateUser(User user, User loginUser) {
         long userId=user.getId();
         if(userId<=0)
         {
@@ -179,7 +179,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         {
             throw new BusinessException(ErrorCode.NULL_ERROR);
         }
-        return userMapper.updateById(oldUser);
+        return userMapper.updateById(user);
     }
 
     @Override
