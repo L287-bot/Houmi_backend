@@ -13,8 +13,10 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ import static com.example.houmi_backend.constant.UserConstant.USER_LOGIN_STATE;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("https://localhost:5173/")
 @Slf4j
 public class UserController {
 
@@ -52,6 +55,22 @@ public class UserController {
         long result=userService.UserRegister(userAccount,userPassword,checkPassword);
         return ResultUtils.success(result);
     }
+
+@GetMapping("/search/tags")
+public BaseResponse<List<User>> searchUserByTags(@RequestParam(required = false) List<String> tagNameList)
+{
+    System.out.println(tagNameList.toString());
+if (CollectionUtils.isEmpty(tagNameList))
+{
+throw new BusinessException(ErrorCode.PARAM_ERROR);
+
+}
+List<User> userList=userService.searchByTag(tagNameList);
+//在service层脱敏过的
+return ResultUtils.success(userList);
+}
+
+
 
     /**
      * 用户登录

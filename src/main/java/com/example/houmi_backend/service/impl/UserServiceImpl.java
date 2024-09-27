@@ -8,15 +8,20 @@ import com.example.houmi_backend.mapper.UserMapper;
 import com.example.houmi_backend.model.domain.User;
 import com.example.houmi_backend.service.UserService;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.example.houmi_backend.constant.UserConstant.ADMIN_ROLE;
 import static com.example.houmi_backend.constant.UserConstant.USER_LOGIN_STATE;
@@ -194,6 +199,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(ErrorCode.NO_LOGIN);
         }
         return (User)userObj;
+    }
+
+    @Override
+    public List<User> searchByTag(List<String> tagNameList) {
+        if (CollectionUtils.isEmpty(tagNameList))
+        {
+            throw  new BusinessException(ErrorCode.PARAM_ERROR);
+        }
+        //查询所有用户
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        List<User> userList=userMapper.selectList(queryWrapper);
+        Gson gson=new Gson();
+        //内存中判断是否有合适的标签
+        return userList.stream().filter(user -> {
+            String tagStr=user.getTags();
+            Set<String> tempTagNameSet=gson.fromJson(tagStr,new TypeToken<Set<String>>(){}.getType());
+            tempTagNameSet = Optional.ofNullable(tempTagNameSet).orElse(new HashSet<>());
+            for(String TagNanme:tagNameList){
+                if (!tempTagNameSet.contains(TagNanme)){
+                    return false;
+                }
+
+            }return  true;
+        }).map(this::getSafetyUser).collect(Collectors.toList());
+
+
+
+
     }
 }
 

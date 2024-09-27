@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.houmi_backend.model.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 
 /**
  * @author ASUS
@@ -71,5 +73,7 @@ public interface UserService extends IService<User> {
      * @return
      */
      User getLoginUser(HttpServletRequest request);
+
+     List<User> searchByTag(List<String> tagNameList);
 
 }
