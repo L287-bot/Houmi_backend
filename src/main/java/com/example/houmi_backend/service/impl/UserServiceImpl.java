@@ -105,6 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setGender(origin.getGender());
         user.setPhone(origin.getPhone());
         user.setEmail(origin.getEmail());
+        user.setProfile(origin.getProfile());
         user.setUserRole(origin.getUserRole());
         user.setCreatTime(origin.getCreatTime());
         return user;
@@ -133,6 +134,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(ErrorCode.PARAM_ERROR,"账号存在非法字符");
         }
         String encryptPassword=DigestUtils.md5DigestAsHex((SALT+userPassword).getBytes());
+        System.out.println(encryptPassword);
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("userAccount",userAccount);
         queryWrapper.eq("userPassword",encryptPassword);

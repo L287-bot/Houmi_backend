@@ -18,6 +18,7 @@
             <result property="updateTIme" column="updateTIme" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
             <result property="tags" column="tags" jdbcType="VARCHAR"/>
+        <result property="profile" column="profile" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -25,6 +26,6 @@
         userPassword,avatarUrl,gender,
         phone,email,userRole,
         creatTime,updateTIme,isDelete,
-        tags
+        tags,profile
     </sql>
 </mapper>

@@ -59,10 +59,9 @@ public class UserController {
 @GetMapping("/search/tags")
 public BaseResponse<List<User>> searchUserByTags(@RequestParam(required = false) List<String> tagNameList)
 {
-    System.out.println(tagNameList.toString());
 if (CollectionUtils.isEmpty(tagNameList))
 {
-throw new BusinessException(ErrorCode.PARAM_ERROR);
+throw new BusinessException(ErrorCode.PARAM_ERROR,"标签列表为空");
 
 }
 List<User> userList=userService.searchByTag(tagNameList);
