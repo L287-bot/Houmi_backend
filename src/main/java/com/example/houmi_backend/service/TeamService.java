@@ -42,11 +42,11 @@ public interface TeamService extends IService<Team> {
 
     /**
      * 退出队伍
-     * @param team
+     * @param teamId
      * @param CurrentUser
      * @return
      */
-    boolean outTeam(Team team,User CurrentUser);
+    boolean outTeam(Long teamId,User CurrentUser);
 
     /**
      * 修改队伍信息

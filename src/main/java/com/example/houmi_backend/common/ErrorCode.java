@@ -6,8 +6,8 @@ public enum ErrorCode {
     NULL_ERROR(4001,"请求数据为空",""),
     NO_LOGIN(4010,"未登录",""),
     NO_AUTH(4011,"没有权限",""),
-    SYSTEM_ERROR(5000,"系统内部错误","")
-    ;
+    SYSTEM_ERROR(5000,"系统内部错误",""),
+
 
 
     private  int code;
